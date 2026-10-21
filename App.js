@@ -1,25 +1,72 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, Text, StyleSheet, TextInput, View } from 'react-native';
+import { useState } from 'react';
+import { Button, FlatList, StyleSheet, TextInput, View } from 'react-native';
+import Item from './src/components/Item';
 
 export default function App() {
+
+
+  const[text, setText] = useState("");
+  const[tasks, setTasks] = useState([]);
+
+
+
+
+
+  function handleAddTask() {
+    setTasks([...tasks, text]);
+  }
+  
+
+
+
+
+  function handleInputText(text) {
+    setText(text);
+
+    console.log(text);
+    
+  }
+
+
   return (
+
+
+
+
     <View style={styles.container}>
-      
-      <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="zadaj ulohu " />
-        
-        <Button title="ADD" color="#538b77" /> 
-      </View>
+
+
 
       
-      <View style={styles.taskContainer}>
-        <Text style={styles.titleText}>ULOHY::::::::::</Text>
+      <View style={styles.inputContainer}>
+        <TextInput 
+        onChangeText={handleInputText} 
+        style={styles.input} 
+        placeholder="zadaj ulohu " />
+        
+
+
+
+        <Button 
+        onPress={handleAddTask} 
+        title="ADD" 
+        color="#538b77" /> 
       </View>
-      
-      <StatusBar style="auto" />
+
+      <View style={styles.taskContainer}>
+        <FlatList
+          data={tasks}
+          renderItem={({ item }) => <Item title={item} />}
+          keyExtractor={(_, index) => index.toString()}
+        />
+      </View>
     </View>
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +74,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     
   },
+
+
+
+
   inputContainer: {
     flex: 1,
     alignItems: 'center', 
@@ -36,6 +87,9 @@ const styles = StyleSheet.create({
     gap: 12,
     backgroundColor: '#c4c5ea', 
   },
+
+
+
   taskContainer: {
     flex: 3, 
     borderTopWidth: 1, 
@@ -43,6 +97,11 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: '#dde0b8', 
   },
+
+
+
+
+
   input: {
     borderWidth: 2,
     borderColor: '#040000',
@@ -52,6 +111,10 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     backgroundColor: '#ffffff',
   },
+
+
+
+
   titleText: {
     fontWeight: 'bold',
     fontSize: 18,
